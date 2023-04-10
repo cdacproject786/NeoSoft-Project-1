@@ -1,0 +1,23 @@
+server:
+ port: 9000
+spring:
+ application:
+    name : ADMIN-SERVICE
+
+
+ jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+ datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/mydb
+    username: postgres
+    password: 123
+    driverClassName: org.postgresql.Driver
+
+eureka:
+ instance:
+    prefer-Ip-Address: true
+

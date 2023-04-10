@@ -1,0 +1,17 @@
+server:
+  port: 4545
+spring:
+  application:
+    name : AUTHENTICATION-SERVICE
+
+  datasource:
+    url: jdbc:mysql://localhost:3307/authentication
+    username: root
+    password: 123
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
