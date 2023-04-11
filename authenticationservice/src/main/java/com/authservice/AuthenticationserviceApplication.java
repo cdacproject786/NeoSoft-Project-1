@@ -14,8 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class AuthenticationserviceApplication {
 
-	@Autowired
-	BCryptPasswordEncoder encoder;
+
 
 	public static void main(String[] args) {
 

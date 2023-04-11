@@ -2,6 +2,7 @@ package com.authservice.controller;
 
 import com.authservice.entity.AuthUser;
 import com.authservice.service.AuthenticationService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,14 +26,15 @@ public class AuthRegisterController {
 
     @PostMapping("/admin")
     @Transactional
+    @CircuitBreaker(name = "ADMIN_REGISTER_BREAKER",fallbackMethod = "regsiterfallback")
     public ResponseEntity<?> saveAdmin(@RequestBody AuthUser user)
     {
         try
         {
             AuthUser savedUser =  authenticationService.saveUser(user);
-            System.out.println("Saved the data to local db");
+            // System.out.println("Saved the data to local db");
             authenticationService.trnasferAdmin(savedUser);
-            System.out.println("Saved the data to remote db");
+           // System.out.println("Saved the data to remote db");
             return new ResponseEntity<>(new String("Saved Successfully"), HttpStatus.OK);
         }
 
@@ -43,9 +45,10 @@ public class AuthRegisterController {
         }
     }
 
-    @PostMapping("/encode")
-    public void encode(@RequestBody AuthUser user)
+    public ResponseEntity<?> registerfallback(AuthUser user,Exception e)
     {
-        System.out.println(encoder.encode(user.getPassword()));
+        System.out.println("Fallback executed because service is down");
+        return new ResponseEntity<>("The service is down. Try after some time",HttpStatus.SERVICE_UNAVAILABLE);
     }
+
 }
